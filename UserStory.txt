@@ -1,0 +1,12 @@
+1.Making a program that makes AND, OR, XOR of two digits. You give the program
+as parameters the two digits and as a third and,or,xor.
+
+2.Making a program that generates 12 tasks.
+
+3.Making a program that generates 12 answers to the task.
+
+4.Exporting HTML.
+
+5.Exporting PDF.
+
+6.Generating easy/hard Tasks.

@@ -10,3 +10,5 @@ as parameters the two digits and as a third and,or,xor.
 5.Exporting PDF.
 
 6.Generating easy/hard Tasks.
+
+7.Making hard or easy hexs depending on the paramether.

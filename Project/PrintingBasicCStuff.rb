@@ -10,6 +10,17 @@ def makingTheEasyHex hex
 	Random.new.rand(4..8).times do
 		hex << ran[Random.new.rand(0..2)].to_s(16)
 	end
+end
+def makingEasyOrHardShiftingDigits argv
+	digit = Random.new.rand(4..8).even?
+	if(argv[0].to_s.downcase == "easy")
+		while digit.odd
+			digit = Random.new.rand(4..8).even?	
+		end
+		return digit
+	else
+		return 0
+	end
 
 end
 def makingEasyOrHardHexs argv
@@ -37,24 +48,21 @@ def returnOperator argv
 	return operator
 end
 
-def writingInC filename, operator, tempHex
+def gettingTheAnswer filename, tempTask
 	File.open(filename, "w") do |file|  
 		file <<
 		"#include <stdio.h>
+		#include <stdlib.h>
 		int main(){
-			int a = #{tempHex[0]};
-			int b = #{tempHex[1]};
-			int res = a#{operator}b;
+			#{tempTask}
 			printf(\"0x\");
 			printf(\"%04x\",res);
-			return res;
+			return 0;
 		}
 		"
 	end
-end
 
-def gettinTheResFromTheC filename
-	p "Temp",tempResult = system("gcc #{filename} && ./a.out").to_s.gsub("true",)
+	tempResult = `gcc #{filename} && ./a.out`
 	system("rm ./#{filename} ./a.out")
 	return tempResult
 end
@@ -63,5 +71,34 @@ def newLine
 	print("\n")
 end
 
-writingInC("test.c",returnOperator(ARGV),makingEasyOrHardHexs(ARGV))
-p "Result = ",gettinTheResFromTheC("test.c")
+def firstTask operator,tempHex
+	return"
+int a = #{tempHex[0]};
+int b = #{tempHex[1]};
+int res = a#{operator}b;"
+end
+
+def secondTask operator,tempHex,shifter,digit
+	return"
+int a = #{tempHex[0]}; 
+int b = #{tempHex[1]}; 
+int res = a#{operator}b; "
+end
+
+def gettingTheTask string
+	return firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))
+end
+
+def parsingTheTaskToHtml string
+	tempArray = []
+	string.each_line do |line|
+		tempArray << line.gsub("\n","").gsub("\t","")
+	end
+
+	return tempArray.delete_if{ |item| item == ""}
+end
+p gettingTheAnswer("test.c",firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))
+gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))).dump
+
+p parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))))
+"hello".gsub("\n","<p>").gsub(";",";</p>")

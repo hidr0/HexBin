@@ -1,4 +1,11 @@
-
+startHTML = "<html>
+<head>
+<style type=\"text\/css\">
+td{padding:10px;}
+</style>
+</head>
+<body><table border = \"1\">"
+endHTML = "</table></body></html>"
 def makingTheHardHex hex
 	Random.new.rand(4..8).times do
 		hex << Random.new.rand(1..14).to_s(16)
@@ -73,16 +80,16 @@ end
 
 def firstTask operator,tempHex
 	return"
-int a = #{tempHex[0]};
-int b = #{tempHex[1]};
-int res = a#{operator}b;"
+	int a = #{tempHex[0]};
+	int b = #{tempHex[1]};
+	int res = a#{operator}b;"
 end
 
 def secondTask operator,tempHex,shifter,digit
 	return"
-int a = #{tempHex[0]}; 
-int b = #{tempHex[1]}; 
-int res = a#{operator}b; "
+	int a = #{tempHex[0]}; 
+	int b = #{tempHex[1]}; 
+	int res = a#{operator}b; "
 end
 
 def gettingTheTask string
@@ -97,8 +104,44 @@ def parsingTheTaskToHtml string
 
 	return tempArray.delete_if{ |item| item == ""}
 end
-p gettingTheAnswer("test.c",firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))
-gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))).dump
 
-p parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))))
-"hello".gsub("\n","<p>").gsub(";",";</p>")
+def genSomeHTML leftString,rightString,endTheTable,startHTML,endHTML
+	if((leftString != "") && (rightString != ""))
+		returnHTML = "<td>"
+		leftString.each do |string|
+			returnHTML << "<p>"
+			returnHTML << string
+			returnHTML << "</p>"
+		end
+		returnHTML << "<p>result = ..........</p>"
+		
+		returnHTML << "<td>"
+		rightString.each do |string|
+			returnHTML << "<p>"
+			returnHTML << string
+			returnHTML << "</p>"
+		end
+		returnHTML << "<p>result = ..........</p>"
+		returnHTML << "</td>"
+	end
+	returnHTML << "</tr>"
+	return returnHTML
+end
+
+def whitingTheHTMLFile htmlFile,filename
+	File.open("#{filename}", "w") do |file|  
+		file << htmlFile
+	end
+end
+gettingTheAnswer("test.c",firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))
+gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))).dump
+parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))))
+
+
+
+HTML = startHTML
+10.times do
+	HTML << genSomeHTML(parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))),parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))),1,startHTML,endHTML)
+end
+HTML << endHTML
+whitingTheHTMLFile(HTML,"1.html")

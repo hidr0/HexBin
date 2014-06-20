@@ -1,11 +1,15 @@
-startHTML = "<html>
+starthtml = "<html>
 <head>
 <style type=\"text\/css\">
 td{padding:10px;}
 </style>
 </head>
 <body><table border = \"1\">"
-endHTML = "</table></body></html>"
+
+endhtml = "</table></body></html>"
+operator = ["^","|","&"]
+shifter = ["<<", ">>"]
+
 def makingTheHardHex hex
 	Random.new.rand(4..8).times do
 		hex << Random.new.rand(1..14).to_s(16)
@@ -19,14 +23,17 @@ def makingTheEasyHex hex
 	end
 end
 def makingEasyOrHardShiftingDigits argv
-	digit = Random.new.rand(4..8).even?
+	digit = Random.new.rand(1..16)
 	if(argv[0].to_s.downcase == "easy")
-		while digit.odd
-			digit = Random.new.rand(4..8).even?	
+		while digit.odd?
+			digit = Random.new.rand(1..16)
 		end
 		return digit
 	else
-		return 0
+		while digit.even?
+			digit = Random.new.rand(1..16)
+		end
+		return digit
 	end
 
 end
@@ -44,15 +51,12 @@ def makingEasyOrHardHexs argv
 	return hex
 end
 
-def returnOperator argv
-	if(argv[1].to_s.downcase == "and")
-		operator = "&"
-	elsif argv[1].to_s.downcase == "or"
-		operator = "|"
-	elsif argv[1].to_s.downcase == "xor"
-		operator = "^"
-	end	
-	return operator
+def makingEasyOrHardDec argv
+	if argv[0].to_s.downcase == "easy"
+		return (2**Random.new.rand(0..11))
+	elsif argv[0].to_s.downcase == "hard"
+		return Random.rand(0..1024)
+	end
 end
 
 def gettingTheAnswer filename, tempTask
@@ -74,10 +78,6 @@ def gettingTheAnswer filename, tempTask
 	return tempResult
 end
 
-def newLine
-	print("\n")
-end
-
 def firstTask operator,tempHex
 	return"
 	int a = #{tempHex[0]};
@@ -85,18 +85,14 @@ def firstTask operator,tempHex
 	int res = a#{operator}b;"
 end
 
-def secondTask operator,tempHex,shifter,digit
+def secondTask operator,tempDec,shifter,digit
 	return"
-	int a = #{tempHex[0]}; 
-	int b = #{tempHex[1]}; 
-	int res = a#{operator}b; "
+	int a = #{tempDec}; 
+	int b = #{tempDec}; 
+	int res = (a#{shifter} #{digit})#{operator}(b #{shifter} #{digit}); "
 end
 
-def gettingTheTask string
-	return firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))
-end
-
-def parsingTheTaskToHtml string
+def parsingTheTaskTohtml string
 	tempArray = []
 	string.each_line do |line|
 		tempArray << line.gsub("\n","").gsub("\t","")
@@ -105,43 +101,67 @@ def parsingTheTaskToHtml string
 	return tempArray.delete_if{ |item| item == ""}
 end
 
-def genSomeHTML leftString,rightString,endTheTable,startHTML,endHTML
+def genSomehtml leftString,rightString,starthtml,endhtml,result
 	if((leftString != "") && (rightString != ""))
-		returnHTML = "<td>"
+		returnhtml = "<td>"
 		leftString.each do |string|
-			returnHTML << "<p>"
-			returnHTML << string
-			returnHTML << "</p>"
+			returnhtml << "<p>"
+			returnhtml << string
+			returnhtml << "</p>"
 		end
-		returnHTML << "<p>result = ..........</p>"
+		returnhtml << "<p>result = #{result}</p>"
 		
-		returnHTML << "<td>"
+		returnhtml << "<td>"
 		rightString.each do |string|
-			returnHTML << "<p>"
-			returnHTML << string
-			returnHTML << "</p>"
+			returnhtml << "<p>"
+			returnhtml << string
+			returnhtml << "</p>"
 		end
-		returnHTML << "<p>result = ..........</p>"
-		returnHTML << "</td>"
+		returnhtml << "<p>result = #{result}</p>"
+		returnhtml << "</td>"
 	end
-	returnHTML << "</tr>"
-	return returnHTML
+	returnhtml << "</tr>"
+	return returnhtml
 end
 
-def whitingTheHTMLFile htmlFile,filename
-	File.open("#{filename}", "w") do |file|  
+def whitingThehtmlFile htmlFile,filename
+	File.open("./Tests/#{filename}", "w") do |file|  
 		file << htmlFile
 	end
 end
-gettingTheAnswer("test.c",firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))
-gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))).dump
-parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV))))
+
+html = ""
+10.times do |i|	
+	html.clear
+	html << starthtml
+		operatorI = operator[Random.new.rand(0..2)]
+		randomHex = makingEasyOrHardHexs(ARGV) 
+		leftString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
+
+		operatorI = operator[Random.new.rand(0..2)]
+		randomHex = makingEasyOrHardHexs(ARGV) 
+		rightString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
+
+		html << genSomehtml(leftString,rightString,starthtml,endhtml,"........") 
 
 
 
-HTML = startHTML
-10.times do
-	HTML << genSomeHTML(parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))),parsingTheTaskToHtml(gettingTheTask(firstTask(returnOperator(ARGV),makingEasyOrHardHexs(ARGV)))),1,startHTML,endHTML)
+		operatorI = operator[Random.new.rand(0..2)]
+		randomDec = makingEasyOrHardDec(ARGV)
+		shifterI = shifter[Random.new.rand(0..1)]
+		shiftingIndex = makingEasyOrHardShiftingDigits(ARGV)
+		leftString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifterI,shiftingIndex))
+
+		operatorI = operator[Random.new.rand(0..2)]
+		randomDec = makingEasyOrHardDec(ARGV)
+		shifterI = shifter[Random.new.rand(0..1)]
+		shiftingIndex = makingEasyOrHardShiftingDigits(ARGV)
+		rightString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifterI,shiftingIndex))
+
+	html << genSomehtml(leftString,rightString,starthtml,endhtml,"........") 
+	html << endhtml
+	whitingThehtmlFile(html,"#{i}.html")
 end
-HTML << endHTML
-whitingTheHTMLFile(HTML,"1.html")
+
+p makingEasyOrHardDec(ARGV)
+

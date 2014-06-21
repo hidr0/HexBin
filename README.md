@@ -40,6 +40,12 @@ The tests are with Bulgarian headings, but you could change it inside the code.
 ## Notes when using
   * It always tries to remove the folder you give it, so **don't worry about texts like:** 
     * `rm: KWpmDLMzgWxWeINz: No such file or directory`
+  * The PDFKit prints some stuff in the console aswell:
+    * `Loading pages (1/5)`
+    * `Resolving links (2/5)`
+    * `Counting pages (3/5)`
+    * `Printing pages (5/5)`
+    * `Done`
   
 ## Copyright
-Copyright (c) 2014 Mihail 'hidr0' Kirilov & Elsys-bg.org. See LICENSE for details.
+Copyright (c) 2014 Mihail 'hidr0' Kirilov & Elsys-bg.org.

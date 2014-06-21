@@ -179,25 +179,35 @@ def thirdTask operator,tempHex,shifter,digit
 		return tempArray.delete_if{ |item| item == ""}
 	end
 
-	def genSomehtml leftString,rightString,result
-		if((leftString != "") && (rightString != ""))
-			returnhtml = "<td>"
-			leftString.each do |string|
-				returnhtml << "<p>"
-				returnhtml << string
-				returnhtml << "</p>"
-			end
-			returnhtml << "<p>res = #{result[0]}</p>"
+	def genSomehtml leftString,rightString,rightRightString,result
 
-			returnhtml << "<td>"
-			rightString.each do |string|
-				returnhtml << "<p>"
-				returnhtml << string
-				returnhtml << "</p>"
-			end
-			returnhtml << "<p>res = #{result[1]}</p>"
-			returnhtml << "</td>"
+		returnhtml = "<td>"
+		leftString.each do |string|
+			returnhtml << "<p>"
+			returnhtml << string
+			returnhtml << "</p>"
 		end
+		returnhtml << "<p>res = #{result[0]}</p>"
+		returnhtml << "</td>"
+
+		returnhtml << "<td>"
+		rightString.each do |string|
+			returnhtml << "<p>"
+			returnhtml << string
+			returnhtml << "</p>"
+		end
+		returnhtml << "<p>res = #{result[1]}</p>"
+		returnhtml << "</td>"
+
+		returnhtml << "<td>"
+		rightRightString.each do |string|
+			returnhtml << "<p>"
+			returnhtml << string
+			returnhtml << "</p>"
+		end
+		returnhtml << "<p>res = #{result[2]}</p>"
+		returnhtml << "</td>"
+
 		returnhtml << "</tr>"
 		return returnhtml
 	end
@@ -211,13 +221,12 @@ def thirdTask operator,tempHex,shifter,digit
 	if(ARGV.length > 1 && ARGV.length < 4)
 		html = ""
 		htmlWithRes = ""
-		result = [0,0]
-		dots =["............","............"] 
+		result = [0,0,0]
+		dots =["............","............","............"] 
 		PDFKit.configure do |config|
 			config.wkhtmltopdf = `which wkhtmltopdf`.strip
 			config.default_options = {
-				:page_width => '120',
-				:page_height => '350'
+				:page_size=>"A4"
 			}
 		end
 		numberOfTests.times do |i|	
@@ -226,19 +235,24 @@ def thirdTask operator,tempHex,shifter,digit
 			htmlWithRes.clear
 			html << startingHtml(i+1)
 			htmlWithRes << startingHtml(i+1)
-			4.times do 
+			2.times do 
 				operatorI = operator[Random.new.rand(0..2)]
 				randomHex = makingEasyOrHardHexs(hardness) 
 				leftString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
-				result[0] = gettingTheAnswer("1.c",firstTask(operatorI,randomHex))
+				result[0] = gettingTheAnswer("temp.c",firstTask(operatorI,randomHex))
 
 				operatorI = operator[Random.new.rand(0..2)]
 				randomHex = makingEasyOrHardHexs(hardness) 
 				rightString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
-				result[1] = gettingTheAnswer("1.c",firstTask(operatorI,randomHex))
+				result[1] = gettingTheAnswer("temp.c",firstTask(operatorI,randomHex))
 
-				html << genSomehtml(leftString,rightString,dots)  
-				htmlWithRes << genSomehtml(leftString,rightString,result) 
+				operatorI = operator[Random.new.rand(0..2)]
+				randomHex = makingEasyOrHardHexs(hardness) 
+				rightRightString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
+				result[2] = gettingTheAnswer("temp.c",firstTask(operatorI,randomHex))
+
+				html << genSomehtml(leftString,rightString,rightRightString,dots)  
+				htmlWithRes << genSomehtml(leftString,rightString,rightRightString,result) 
 			end
 
 			operatorI = operator[Random.new.rand(0..2)]
@@ -246,34 +260,48 @@ def thirdTask operator,tempHex,shifter,digit
 			shiftingIndex = makingEasyOrHardShiftingDigits(hardness)
 			shifterI = returnShifter(shifter)
 			leftString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifterI,shiftingIndex))
-			result[0] = gettingTheAnswer("1.c",secondTask(operatorI,randomDec,shifterI,shiftingIndex))
+			result[0] = gettingTheAnswer("temp.c",secondTask(operatorI,randomDec,shifterI,shiftingIndex))
 
 			operatorI = operator[Random.new.rand(0..2)]
 			randomDec = makingEasyOrHardDec(hardness)
 			shiftingIndex = makingEasyOrHardShiftingDigits(hardness)
 			shifterI = returnShifter(shifter)
 			rightString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifterI,shiftingIndex))
-			result[1] = gettingTheAnswer("1.c",secondTask(operatorI,randomDec,shifterI,shiftingIndex))
+			result[1] = gettingTheAnswer("temp.c",secondTask(operatorI,randomDec,shifterI,shiftingIndex))
 
-			html << genSomehtml(leftString,rightString,dots)
-			htmlWithRes << genSomehtml(leftString,rightString,result)
+			operatorI = operator[Random.new.rand(0..2)]
+			randomDec = makingEasyOrHardDec(hardness)
+			shiftingIndex = makingEasyOrHardShiftingDigits(hardness)
+			shifterI = returnShifter(shifter)
+			rightRightString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifterI,shiftingIndex))
+			result[2] = gettingTheAnswer("temp.c",secondTask(operatorI,randomDec,shifterI,shiftingIndex))
+
+			html << genSomehtml(leftString,rightString,rightRightString,dots)  
+			htmlWithRes << genSomehtml(leftString,rightString,rightRightString,result) 
 
 			operatorI = operator[Random.new.rand(0..2)]
 			randomHex = makingEasyOrHardHexs(hardness)
 			shiftingIndex = makingEasyOrHardShiftingDigits(hardness)
 			shifterI = returnShifter(shifter)
 			leftString = parsingTheTaskTohtml(thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
-			result[0] = gettingTheAnswer("1.c",thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
+			result[0] = gettingTheAnswer("temp.c",thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
 
 			operatorI = operator[Random.new.rand(0..2)]
 			randomHex = makingEasyOrHardHexs(hardness)
 			shiftingIndex = makingEasyOrHardShiftingDigits(hardness)
 			shifterI = returnShifter(shifter)
 			rightString = parsingTheTaskTohtml(thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
-			result[1] = gettingTheAnswer("1.c",thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
+			result[1] = gettingTheAnswer("temp.c",thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
 
-			html << genSomehtml(leftString,rightString,dots)
-			htmlWithRes << genSomehtml(leftString,rightString,result)
+			operatorI = operator[Random.new.rand(0..2)]
+			randomHex = makingEasyOrHardHexs(hardness)
+			shiftingIndex = makingEasyOrHardShiftingDigits(hardness)
+			shifterI = returnShifter(shifter)
+			rightRightString = parsingTheTaskTohtml(thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
+			result[1] = gettingTheAnswer("temp.c",thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
+
+			html << genSomehtml(leftString,rightString,rightRightString,dots)  
+			htmlWithRes << genSomehtml(leftString,rightString,rightRightString,result) 
 
 			html << endhtml
 

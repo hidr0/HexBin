@@ -1,7 +1,7 @@
 # HexBin
-Creates a number Bitwise tests with 12 questions and two leves of hardness. 
+Creates a number Bitwise tests with 12 questions and two levels of hardness. 
 Exports the tests and the answers to the tests in both PDF and HTML.
-The tests are with Bulgarian hedings, but you could change it inside the code.
+The tests are with Bulgarian headings, but you could change it inside the code.
 
 #Uses 
   I use [PDFKit](http://github.com/antialize/wkhtmltopdf) to render the PDFs which on its own uses [wkhtmltopdf](http://github.com/antialize/wkhtmltopdf) to rendet HTML to PDF using Webkit.
@@ -20,8 +20,8 @@ The tests are with Bulgarian hedings, but you could change it inside the code.
  * By hand: http://code.google.com/p/wkhtmltopdf/downloads/list
 
 #### HexBin
-  Clone the repository: `git clone https://github.com/hidroo/HexBin.git`
-  Or download link: [here](https://github.com/hidroo/HexBin/archive/master.zip)
+  * Clone the repository: `git clone https://github.com/hidroo/HexBin.git`
+  * Or download link: [here](https://github.com/hidroo/HexBin/archive/master.zip)
 
 ## Usage
 * You go to the folder `cd HexBin/Project`
@@ -34,7 +34,7 @@ The tests are with Bulgarian hedings, but you could change it inside the code.
   It is tested on Mac and Linux. No Windows support for now.
   
 ## TODO
-  Making it work faster by making a smarter algoruthum that generates the tests.
+  Making it work faster by making a smarter algorithm that generates the tests.
   Windows support.
   
 ## Notes when using

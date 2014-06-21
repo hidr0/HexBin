@@ -40,7 +40,7 @@ def thirdTask operator,tempHex,shifter,digit
 		td{padding:10px;}
 		</style>
 		</head>
-		<body>
+		<body style=\"font-family: Verdana, Geneva, \"DejaVu Sans\", sans-serif;\">
 		<h3 style =\"text-align: center\">Technological school electronic systems</h3>
 		<h4 style =\"text-align: center\">Technology of programming - bitwise exam</h4>
 		<h3 style =\"text-align: center\">Variation #{number}</h3>
@@ -226,7 +226,7 @@ def thirdTask operator,tempHex,shifter,digit
 			htmlWithRes.clear
 			html << startingHtml(i+1)
 			htmlWithRes << startingHtml(i+1)
-			3.times do 
+			4.times do 
 				operatorI = operator[Random.new.rand(0..2)]
 				randomHex = makingEasyOrHardHexs(hardness) 
 				leftString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))

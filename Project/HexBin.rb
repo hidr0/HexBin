@@ -287,6 +287,10 @@ def thirdTask operator,tempHex,shifter,digit
 			writingHtmlToFile(htmlWithRes,"Test ##{i+1} with results.html",dirName+"/Answers")
 		end
 		print("Your directory name is \"#{dirName}\"\n")
-		print("You generated #{numberOfTests} that are #{hardness}.\n")
+		if(numberOfTests == 1)
+			test = "test"
+		end
+		test = "tests"
+		print("You generated #{numberOfTests} #{test} that are #{hardness}.\n")
 	end
 

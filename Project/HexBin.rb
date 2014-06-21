@@ -298,7 +298,7 @@ def thirdTask operator,tempHex,shifter,digit
 			shiftingIndex = makingEasyOrHardShiftingDigits(hardness)
 			shifterI = returnShifter(shifter)
 			rightRightString = parsingTheTaskTohtml(thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
-			result[1] = gettingTheAnswer("temp.c",thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
+			result[2] = gettingTheAnswer("temp.c",thirdTask(operatorI,randomHex,shifterI,shiftingIndex))
 
 			html << genSomehtml(leftString,rightString,rightRightString,dots)  
 			htmlWithRes << genSomehtml(leftString,rightString,rightRightString,result) 

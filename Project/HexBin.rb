@@ -41,11 +41,11 @@ def thirdTask operator,tempHex,shifter,digit
 		</style>
 		</head>
 		<body>
-		<h3 style =\"text-align: center\">Технологично училище Електронни системи</h3>
-		<h4 style =\"text-align: center\">Технология на програмирането - Тест побитови операции</h4>
-		<h3 style =\"text-align: center\">Вариант #{number}</h3>
-		<p>Три имена: </p>
-		<p>Клас и номер в клас:</p>
+		<h3 style =\"text-align: center\">Technological school electronic systems</h3>
+		<h4 style =\"text-align: center\">Technology of programming - bitwise exam</h4>
+		<h3 style =\"text-align: center\">Variation #{number}</h3>
+		<p>Three names: </p>
+		<p>Class and number in class:</p>
 		<center><table border = \"1\">"
 	end
 

@@ -1,7 +1,7 @@
 # HexBin
 Creates a number Bitwise tests with 12 questions and two levels of hardness. 
 Exports the tests and the answers to the tests in both PDF and HTML.
-The tests are with Bulgarian headings, but you could change it inside the code.
+The tests are with English headings, but you could change it inside the code.
 
 #Uses 
   I use [PDFKit](http://github.com/antialize/wkhtmltopdf) to render the PDFs which on its own uses [wkhtmltopdf](http://github.com/antialize/wkhtmltopdf) to rendet HTML to PDF using Webkit.

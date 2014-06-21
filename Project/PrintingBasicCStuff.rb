@@ -12,31 +12,16 @@ shifter = ["<<", ">>"]
 
 def makingTheHardHex hex
 	Random.new.rand(4..8).times do
-		hex << Random.new.rand(1..14).to_s(16)
+		hex << Random.new.rand(5..15).to_s(16)
 	end
 end
-
 def makingTheEasyHex hex
-	ran = [Random.new.rand(0..15),0,0]
+	ran = [Random.new.rand(1..15),0,0]
 	Random.new.rand(4..8).times do
 		hex << ran[Random.new.rand(0..2)].to_s(16)
 	end
 end
-def makingEasyOrHardShiftingDigits argv
-	digit = Random.new.rand(1..16)
-	if(argv[0].to_s.downcase == "easy")
-		while digit.odd?
-			digit = Random.new.rand(1..16)
-		end
-		return digit
-	else
-		while digit.even?
-			digit = Random.new.rand(1..16)
-		end
-		return digit
-	end
 
-end
 def makingEasyOrHardHexs argv
 	hex = ["0x","0x"]
 	if argv[0].to_s.downcase == "easy"
@@ -51,12 +36,53 @@ def makingEasyOrHardHexs argv
 	return hex
 end
 
-def makingEasyOrHardDec argv
-	if argv[0].to_s.downcase == "easy"
-		return (2**Random.new.rand(0..11))
-	elsif argv[0].to_s.downcase == "hard"
-		return Random.rand(0..1024)
+def makingEasyShifting 
+	digit = Random.new.rand(1..16)
+	while digit.odd?
+		digit = Random.new.rand(1..16)
 	end
+	return digit
+
+end
+def makingHardShifting
+	digit = Random.new.rand(1..16)
+	while digit.even?
+		digit = Random.new.rand(1..16)
+	end
+	return digit
+end
+def makingEasyOrHardShiftingDigits argv
+	digit = [0,0]
+	while digit[0] == digit[1]
+		if argv[0].to_s.downcase == "easy"
+			2.times do |i|
+				digit[i] = makingEasyShifting 
+			end
+		elsif argv[0].to_s.downcase == "hard"
+			2.times do |i|
+				digit[i] = makingHardShifting
+			end
+		end
+	end
+	return digit
+
+end
+def makingEasyOrHardDec argv
+	digit =[0,0]
+	if argv[0].to_s.downcase == "easy"
+		while digit[0] == digit[1]
+			2.times do |i|
+				digit[i] = (2**Random.new.rand(0..11))
+			end	
+		end
+	elsif argv[0].to_s.downcase == "hard"
+		while digit[0] == digit[1]
+			2.times do |i|
+				digit[i] = Random.new.rand(0..1024)
+			end
+		end
+	end
+	return digit
 end
 
 def gettingTheAnswer filename, tempTask
@@ -87,9 +113,9 @@ end
 
 def secondTask operator,tempDec,shifter,digit
 	return"
-	int a = #{tempDec}; 
-	int b = #{tempDec}; 
-	int res = (a#{shifter} #{digit})#{operator}(b #{shifter} #{digit}); "
+	int a = #{tempDec[0]}; 
+	int b = #{tempDec[1]}; 
+	int res = (a#{shifter[Random.new.rand(0..1)]} #{digit[0]})#{operator}(b #{shifter[Random.new.rand(0..1)]} #{digit[1]}); "
 end
 
 def parsingTheTaskTohtml string
@@ -101,7 +127,7 @@ def parsingTheTaskTohtml string
 	return tempArray.delete_if{ |item| item == ""}
 end
 
-def genSomehtml leftString,rightString,starthtml,endhtml,result
+def genSomehtml leftString,rightString,result
 	if((leftString != "") && (rightString != ""))
 		returnhtml = "<td>"
 		leftString.each do |string|
@@ -109,7 +135,7 @@ def genSomehtml leftString,rightString,starthtml,endhtml,result
 			returnhtml << string
 			returnhtml << "</p>"
 		end
-		returnhtml << "<p>result = #{result}</p>"
+		returnhtml << "<p>result = #{result[0]}</p>"
 		
 		returnhtml << "<td>"
 		rightString.each do |string|
@@ -117,7 +143,7 @@ def genSomehtml leftString,rightString,starthtml,endhtml,result
 			returnhtml << string
 			returnhtml << "</p>"
 		end
-		returnhtml << "<p>result = #{result}</p>"
+		returnhtml << "<p>result = #{result[1]}</p>"
 		returnhtml << "</td>"
 	end
 	returnhtml << "</tr>"
@@ -131,37 +157,54 @@ def whitingThehtmlFile htmlFile,filename
 end
 
 html = ""
-10.times do |i|	
+htmlWithRes = ""
+result = [0,0]
+dots =["............","............"] 
+2.times do |i|	
 	html.clear
+	htmlWithRes.clear
 	html << starthtml
-		operatorI = operator[Random.new.rand(0..2)]
-		randomHex = makingEasyOrHardHexs(ARGV) 
-		leftString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
+	htmlWithRes << starthtml
+	
+	operatorI = operator[Random.new.rand(0..2)]
+	randomHex = makingEasyOrHardHexs(ARGV) 
+	leftString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
+	result[0] = gettingTheAnswer("1.c",firstTask(operatorI,randomHex))
+	
+	operatorI = operator[Random.new.rand(0..2)]
+	randomHex = makingEasyOrHardHexs(ARGV) 
+	rightString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
+	result[1] = gettingTheAnswer("1.c",firstTask(operatorI,randomHex))
+	
+	html << genSomehtml(leftString,rightString,dots)  
+	htmlWithRes << genSomehtml(leftString,rightString,result) 
 
-		operatorI = operator[Random.new.rand(0..2)]
-		randomHex = makingEasyOrHardHexs(ARGV) 
-		rightString = parsingTheTaskTohtml(firstTask(operatorI,randomHex))
+	operatorI = operator[Random.new.rand(0..2)]
+	randomDec = makingEasyOrHardDec(ARGV)
+	shiftingIndex = makingEasyOrHardShiftingDigits(ARGV)
+	leftString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifter,shiftingIndex))
+	result[0] = gettingTheAnswer("1.c",secondTask(operatorI,randomDec,shifter,shiftingIndex))
+	
+	result
+	operatorI = operator[Random.new.rand(0..2)]
+	randomDec = makingEasyOrHardDec(ARGV)
+	shiftingIndex = makingEasyOrHardShiftingDigits(ARGV)
+	rightString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifter,shiftingIndex))
+	result[1] = gettingTheAnswer("1.c",secondTask(operatorI,randomDec,shifter,shiftingIndex))
+	
+	html << genSomehtml(leftString,rightString,dots)
+	htmlWithRes << genSomehtml(leftString,rightString,result)
 
-		html << genSomehtml(leftString,rightString,starthtml,endhtml,"........") 
 
-
-
-		operatorI = operator[Random.new.rand(0..2)]
-		randomDec = makingEasyOrHardDec(ARGV)
-		shifterI = shifter[Random.new.rand(0..1)]
-		shiftingIndex = makingEasyOrHardShiftingDigits(ARGV)
-		leftString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifterI,shiftingIndex))
-
-		operatorI = operator[Random.new.rand(0..2)]
-		randomDec = makingEasyOrHardDec(ARGV)
-		shifterI = shifter[Random.new.rand(0..1)]
-		shiftingIndex = makingEasyOrHardShiftingDigits(ARGV)
-		rightString = parsingTheTaskTohtml(secondTask(operatorI,randomDec,shifterI,shiftingIndex))
-
-	html << genSomehtml(leftString,rightString,starthtml,endhtml,"........") 
 	html << endhtml
-	whitingThehtmlFile(html,"#{i}.html")
+	
+	htmlWithRes << endhtml
+	
+
+
+	whitingThehtmlFile(html,"Test ##{i}.html")
+	whitingThehtmlFile(htmlWithRes,"Test ##{i} with results.html")
 end
 
-p makingEasyOrHardDec(ARGV)
+p makingEasyOrHardShiftingDigits(ARGV)
 

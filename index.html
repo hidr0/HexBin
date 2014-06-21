@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Hexbin by hidroo</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Hexbin</h1>
+        <p>This is my project for Technology of Programing in Elsys.</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/hidroo/HexBin" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/hidroo/HexBin/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/hidroo/HexBin/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>
+<a name="hexbin" class="anchor" href="#hexbin"><span class="octicon octicon-link"></span></a>HexBin</h1>
+
+<p>Creates a number Bitwise tests with 12 questions and two levels of hardness. 
+Exports the tests and the answers to the tests in both PDF and HTML.
+The tests are with Bulgarian headings, but you could change it inside the code.</p>
+
+<h1>
+<a name="uses" class="anchor" href="#uses"><span class="octicon octicon-link"></span></a>Uses</h1>
+
+<p>I use <a href="http://github.com/antialize/wkhtmltopdf">PDFKit</a> to render the PDFs which on its own uses <a href="http://github.com/antialize/wkhtmltopdf">wkhtmltopdf</a> to rendet HTML to PDF using Webkit.</p>
+
+<h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<h4>
+<a name="ruby" class="anchor" href="#ruby"><span class="octicon octicon-link"></span></a>Ruby</h4>
+
+<p>If you don't have Ruby installed on your computer you can find it <a href="https://www.ruby-lang.org/en/installation/">here</a></p>
+
+<h4>
+<a name="pdfkit" class="anchor" href="#pdfkit"><span class="octicon octicon-link"></span></a>PDFKit</h4>
+
+<pre><code>`gem install pdfkit`
+</code></pre>
+
+<h4>
+<a name="wkhtmltopdf" class="anchor" href="#wkhtmltopdf"><span class="octicon octicon-link"></span></a>wkhtmltopdf</h4>
+
+<ul>
+<li>
+<strong>Automatic</strong>: <code>sudo pdfkit --install-wkhtmltopdf</code><br>
+install latest version into /usr/local/bin<br>
+(overwrite defaults with e.g. ARCHITECTURE=amd64 TO=/home/foo/bin)</li>
+<li>By hand: <a href="http://code.google.com/p/wkhtmltopdf/downloads/list">http://code.google.com/p/wkhtmltopdf/downloads/list</a>
+</li>
+</ul><h4>
+<a name="hexbin-1" class="anchor" href="#hexbin-1"><span class="octicon octicon-link"></span></a>HexBin</h4>
+
+<ul>
+<li>Clone the repository: <code>git clone https://github.com/hidroo/HexBin.git</code>
+</li>
+<li>Or download link: <a href="https://github.com/hidroo/HexBin/archive/master.zip">here</a>
+</li>
+</ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<ul>
+<li>You go to the folder <code>cd HexBin/Project</code>
+</li>
+<li> There you run <code>ruby HexBin.rb hardness n dir</code>
+
+<ul>
+<li> The <strong>hardess</strong> can be "easy" or "hard".</li>
+<li> The <strong>n</strong> is the number of tests you want to generate.</li>
+<li>The <strong>dir</strong> is the directory name you want your test to be generated in the "Project" folder. If you don't enter a directory name a random one will be generated for you. If you enter an existing directory name the directory will be deleted and everything inside it.</li>
+</ul>
+</li>
+</ul><h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>It is tested on Mac and Linux. No Windows support for now.</p>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<p>Making it work faster by making a smarter algorithm that generates the tests.
+  Windows support.</p>
+
+<h2>
+<a name="notes-when-using" class="anchor" href="#notes-when-using"><span class="octicon octicon-link"></span></a>Notes when using</h2>
+
+<ul>
+<li>It always tries to remove the folder you give it, so <strong>don't worry about texts like:</strong> 
+
+<ul>
+<li><code>rm: KWpmDLMzgWxWeINz: No such file or directory</code></li>
+</ul>
+</li>
+</ul><h2>
+<a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>Copyright</h2>
+
+<p>Copyright (c) 2014 Mihail 'hidr0' Kirilov &amp; Elsys-bg.org. See LICENSE for details.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/hidroo">hidroo</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>

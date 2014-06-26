@@ -25,7 +25,7 @@ The tests are with English headings, but you could change it inside the code.
 
 ## Usage
 * You go to the folder `cd HexBin/Project`
-*  There you run `ruby HexBin.rb hardness n dir`
+*  There you run `ruby HexBin.rb $(hardness) $(n) $(dir)`
   *  The **hardess** can be "easy" or "hard".
   *  The **n** is the number of tests you want to generate.
   * The **dir** is the directory name you want your test to be generated in the "Project" folder. If you don't enter a directory name a random one will be generated for you. If you enter an existing directory name the directory will be deleted and everything inside it.
